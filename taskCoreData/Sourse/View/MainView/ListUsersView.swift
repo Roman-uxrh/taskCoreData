@@ -32,7 +32,7 @@ class ListUsersView: UIViewController {
         let button = UIButton()
         button.backgroundColor = .systemBlue
         button.setTitle("enter", for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
+        button.titleLabel?.font = .boldSystemFont(ofSize: 20)
         button.layer.cornerRadius = 10
 //        button.addTarget(self, action: #selector(startTimer), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false

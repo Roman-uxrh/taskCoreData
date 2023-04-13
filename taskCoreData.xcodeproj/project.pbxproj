@@ -14,6 +14,7 @@
 		84A538AB29D376D0002F2131 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84A538AA29D376D0002F2131 /* Assets.xcassets */; };
 		84A538AE29D376D0002F2131 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84A538AC29D376D0002F2131 /* LaunchScreen.storyboard */; };
 		84A538BA29D5BB94002F2131 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A538B929D5BB94002F2131 /* DetailView.swift */; };
+		84A538C129E86360002F2131 /* Extensions UITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A538C029E86360002F2131 /* Extensions UITextField.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		84A538AD29D376D0002F2131 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		84A538AF29D376D0002F2131 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		84A538B929D5BB94002F2131 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
+		84A538C029E86360002F2131 /* Extensions UITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extensions UITextField.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,8 +78,8 @@
 		84A538B629D581EF002F2131 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				84A538A229D376CC002F2131 /* ListUsersView.swift */,
-				84A538B929D5BB94002F2131 /* DetailView.swift */,
+				84A538BB29D70797002F2131 /* MainView */,
+				84A538BC29D707A5002F2131 /* DetailView */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -85,6 +87,7 @@
 		84A538B729D581FF002F2131 /* Sourse */ = {
 			isa = PBXGroup;
 			children = (
+				84A538BF29E8632A002F2131 /* Extension */,
 				84A538B629D581EF002F2131 /* View */,
 				84A538B529D581D2002F2131 /* App */,
 			);
@@ -100,6 +103,30 @@
 				84A538A729D376CC002F2131 /* taskCoreData.xcdatamodeld */,
 			);
 			path = Resourse;
+			sourceTree = "<group>";
+		};
+		84A538BB29D70797002F2131 /* MainView */ = {
+			isa = PBXGroup;
+			children = (
+				84A538A229D376CC002F2131 /* ListUsersView.swift */,
+			);
+			path = MainView;
+			sourceTree = "<group>";
+		};
+		84A538BC29D707A5002F2131 /* DetailView */ = {
+			isa = PBXGroup;
+			children = (
+				84A538B929D5BB94002F2131 /* DetailView.swift */,
+			);
+			path = DetailView;
+			sourceTree = "<group>";
+		};
+		84A538BF29E8632A002F2131 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				84A538C029E86360002F2131 /* Extensions UITextField.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -172,6 +199,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84A538C129E86360002F2131 /* Extensions UITextField.swift in Sources */,
 				84A538A329D376CC002F2131 /* ListUsersView.swift in Sources */,
 				84A5389F29D376CC002F2131 /* AppDelegate.swift in Sources */,
 				84A538A129D376CC002F2131 /* SceneDelegate.swift in Sources */,
