@@ -8,7 +8,9 @@
 import UIKit
 import CoreData
 
-final class ListUsersView: UIViewController {
+final class ListUsersView: UIViewController, MainProtocolView {
+    
+    var presenter: MainPresenterProtocol?
     
     // MARK: - Outlets
     
@@ -49,13 +51,20 @@ final class ListUsersView: UIViewController {
         return tableView
     }()
     
-    // MARK: - LifeCycle
+    
+    // MARK: - LifeCycle + Init
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        reloadTable()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
         setupHierarchy()
         setupLayout()
+        presenter?.fetchUsers()
     }
     
     // MARK: - Setups
@@ -95,9 +104,20 @@ final class ListUsersView: UIViewController {
     
     @objc
     func addUser() {
-        guard let name = nameField.text else { return }
-        CoreDataManager.shared.addNewUser(name: name, gender: "male", dateBorn: "01.01.1900")
+        guard let name = nameField.text, !name.isEmpty else { return showAlert(title: "Warning", message: "Not name") }
+        presenter?.addNewUser(name: name)
         nameField.text = ""
+    }
+    
+    // MARK: - Method
+    
+    private func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .cancel))
+        self.present(alert, animated: true)
+    }
+    
+    func reloadTable() {
         tableView.reloadData()
     }
 }
@@ -107,12 +127,12 @@ final class ListUsersView: UIViewController {
 extension ListUsersView: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        CoreDataManager.shared.users?.count ?? 0
+        presenter?.getUsersCount() ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        let user = CoreDataManager.shared.users?[indexPath.row]
+        let user = presenter?.getUser(index: indexPath.row)
         cell.textLabel?.text = user?.name
         cell.accessoryType = .disclosureIndicator
         return cell
@@ -120,16 +140,14 @@ extension ListUsersView: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-//        if indexPath.section == 0 && (indexPath.row == 0 || indexPath.row == 5) {
-//        } else {
-//            let model = presenter?.model[indexPath.section][indexPath.row]
-//            let detailVC = assembly.createDetailViewController(model ?? Model(image: "", firstLabel: "", secondLabel: "", update: true))
-//            navigationController?.pushViewController(detailVC, animated: true)
-//        }
-        let user = CoreDataManager.shared.users?[indexPath.row]
-        let detailViewController = DetailView()
-        detailViewController.model = user
+        guard let user = presenter?.getUser(index: indexPath.row) else { return }
+        let detailViewController = ModuleBuilder.createDetailView(model: user)
         navigationController?.pushViewController(detailViewController, animated: true)
     }
     
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        guard editingStyle == .delete else { return }
+        presenter?.deleteUser(index: indexPath.row)
+        tableView.reloadData()
+    }
 }

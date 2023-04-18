@@ -77,44 +77,4 @@ final class CoreDataManager {
         saveContext()
         fetchUsers()
     }
-    
-//    // Ссылка на AppDelegate
-//    let appDelegate = UIApplication.shared.delegate as! AppDelegate
-//    
-//    // Контекст
-//    let context: NSManagedObjectContext = appDelegate.persistentContainer.viewContext
-//    
-//    // Описание сущности
-//    let entityDescription = NSEntityDescription.entity(forEntityName: "User", in: context)
-//    
-//    // Создание объекта
-//    let menagedObject = NSManagedObject(entity: entityDescription, insertInto: context)
-//    
-//    // Установка значений атрибутов
-//    menagedObject.setValue("Roman", forKey: "name")
-//    
-//    // Извлекаем значения атрибутов
-//    let name = menagedObject.value(forKey: "name")
-//    
-//    // Сохраняем данные
-//    appDelegate.saveContext()
-//    
-//    // Извлекаем данные
-//    let fethRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "User")
-//    do {
-//        let results = try context.fetch(fethRequest)
-//    } catch {
-//        print(error)
-//    }
-//    
-//    // Удаление всех записей
-//    do {
-//        let results = try context.fetch(fethRequest)
-//        for result in results as! [NSManagedObject] {
-//            context.delete(result)
-//        }
-//    } catch {
-//        print(error)
-//    }
-    
 }
