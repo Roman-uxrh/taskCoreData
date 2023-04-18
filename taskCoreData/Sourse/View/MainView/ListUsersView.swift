@@ -6,8 +6,9 @@
 //
 
 import UIKit
+import CoreData
 
-class ListUsersView: UIViewController {
+final class ListUsersView: UIViewController {
     
     // MARK: - Outlets
     
@@ -34,7 +35,7 @@ class ListUsersView: UIViewController {
         button.setTitle("enter", for: .normal)
         button.titleLabel?.font = .boldSystemFont(ofSize: 20)
         button.layer.cornerRadius = 10
-//        button.addTarget(self, action: #selector(startTimer), for: .touchUpInside)
+        button.addTarget(self, action: #selector(addUser), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -43,6 +44,7 @@ class ListUsersView: UIViewController {
         let tableView = UITableView(frame: .zero, style: .insetGrouped)
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         tableView.dataSource = self
+        tableView.delegate = self
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
@@ -88,22 +90,46 @@ class ListUsersView: UIViewController {
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
+    
+    // MARK: - Actions
+    
+    @objc
+    func addUser() {
+        guard let name = nameField.text else { return }
+        CoreDataManager.shared.addNewUser(name: name, gender: "male", dateBorn: "01.01.1900")
+        nameField.text = ""
+        tableView.reloadData()
+    }
 }
 
-// MARK: - Extension
+// MARK: - Extension UITableView
 
-extension ListUsersView: UITableViewDataSource {
+extension ListUsersView: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        10
+        CoreDataManager.shared.users?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = "Hello World!"
+        let user = CoreDataManager.shared.users?[indexPath.row]
+        cell.textLabel?.text = user?.name
         cell.accessoryType = .disclosureIndicator
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+//        if indexPath.section == 0 && (indexPath.row == 0 || indexPath.row == 5) {
+//        } else {
+//            let model = presenter?.model[indexPath.section][indexPath.row]
+//            let detailVC = assembly.createDetailViewController(model ?? Model(image: "", firstLabel: "", secondLabel: "", update: true))
+//            navigationController?.pushViewController(detailVC, animated: true)
+//        }
+        let user = CoreDataManager.shared.users?[indexPath.row]
+        let detailViewController = DetailView()
+        detailViewController.model = user
+        navigationController?.pushViewController(detailViewController, animated: true)
+    }
     
 }

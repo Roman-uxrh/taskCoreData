@@ -15,6 +15,9 @@
 		84A538AE29D376D0002F2131 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84A538AC29D376D0002F2131 /* LaunchScreen.storyboard */; };
 		84A538BA29D5BB94002F2131 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A538B929D5BB94002F2131 /* DetailView.swift */; };
 		84A538C129E86360002F2131 /* Extensions UITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A538C029E86360002F2131 /* Extensions UITextField.swift */; };
+		84A538C429E89716002F2131 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A538C329E89716002F2131 /* CoreDataManager.swift */; };
+		84A538C729EE6B0C002F2131 /* User+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A538C529EE6B0C002F2131 /* User+CoreDataClass.swift */; };
+		84A538C829EE6B0C002F2131 /* User+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A538C629EE6B0C002F2131 /* User+CoreDataProperties.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +31,9 @@
 		84A538AF29D376D0002F2131 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		84A538B929D5BB94002F2131 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		84A538C029E86360002F2131 /* Extensions UITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extensions UITextField.swift"; sourceTree = "<group>"; };
+		84A538C329E89716002F2131 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		84A538C529EE6B0C002F2131 /* User+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+CoreDataClass.swift"; sourceTree = "<group>"; };
+		84A538C629EE6B0C002F2131 /* User+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+CoreDataProperties.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +93,8 @@
 		84A538B729D581FF002F2131 /* Sourse */ = {
 			isa = PBXGroup;
 			children = (
+				84A538C229E896A7002F2131 /* Entity */,
+				84A538C929EE6B50002F2131 /* CoreDataManager */,
 				84A538BF29E8632A002F2131 /* Extension */,
 				84A538B629D581EF002F2131 /* View */,
 				84A538B529D581D2002F2131 /* App */,
@@ -127,6 +135,23 @@
 				84A538C029E86360002F2131 /* Extensions UITextField.swift */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		84A538C229E896A7002F2131 /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				84A538C529EE6B0C002F2131 /* User+CoreDataClass.swift */,
+				84A538C629EE6B0C002F2131 /* User+CoreDataProperties.swift */,
+			);
+			path = Entity;
+			sourceTree = "<group>";
+		};
+		84A538C929EE6B50002F2131 /* CoreDataManager */ = {
+			isa = PBXGroup;
+			children = (
+				84A538C329E89716002F2131 /* CoreDataManager.swift */,
+			);
+			path = CoreDataManager;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -201,10 +226,13 @@
 			files = (
 				84A538C129E86360002F2131 /* Extensions UITextField.swift in Sources */,
 				84A538A329D376CC002F2131 /* ListUsersView.swift in Sources */,
+				84A538C429E89716002F2131 /* CoreDataManager.swift in Sources */,
 				84A5389F29D376CC002F2131 /* AppDelegate.swift in Sources */,
 				84A538A129D376CC002F2131 /* SceneDelegate.swift in Sources */,
 				84A538BA29D5BB94002F2131 /* DetailView.swift in Sources */,
+				84A538C729EE6B0C002F2131 /* User+CoreDataClass.swift in Sources */,
 				84A538A929D376CC002F2131 /* taskCoreData.xcdatamodeld in Sources */,
+				84A538C829EE6B0C002F2131 /* User+CoreDataProperties.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

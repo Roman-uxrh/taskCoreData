@@ -7,9 +7,11 @@
 
 import UIKit
 
-class DetailView: UIViewController {
+final class DetailView: UIViewController {
     
     private var isEdit = false
+    
+    var model: User?
     
     // MARK: - Outlets
     
@@ -153,6 +155,7 @@ class DetailView: UIViewController {
         setupView()
         setupHierarchy()
         setupLayout()
+        configurate()
     }
     
     // MARK: - Setups
@@ -218,14 +221,18 @@ class DetailView: UIViewController {
             
             editProfileButton.widthAnchor.constraint(equalToConstant: 90),
             editProfileButton.heightAnchor.constraint(equalToConstant: 40),
-            editProfileButton.bottomAnchor.constraint(equalTo: photo.topAnchor, constant: 20),
+            editProfileButton.bottomAnchor.constraint(equalTo: photo.topAnchor, constant: 50),
             editProfileButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20)
         ])
     }
     
     // MARK: - Methods
     
-    
+    func configurate() {
+        nameTextField.text = model?.name
+        dateTextField.text = model?.dateBorn
+        genderTextField.text = model?.gender
+    }
     
     // MARK: - Actions
     
