@@ -7,9 +7,22 @@
 
 import UIKit
 
-class DetailView: UIViewController {
+final class DetailView: UIViewController, DetailProtocolView {
     
     private var isEdit = false
+    
+    var presenter: DetailPresenterProtocol?
+    
+    var user: User? {
+        didSet {
+            nameTextField.text = user?.name
+            genderTextField.text = user?.gender
+            dateTextField.text = user?.dateBorn
+
+            guard let image = user?.avatar else { return }
+            photo.image = UIImage(data: image)
+        }
+    }
     
     // MARK: - Outlets
     
@@ -153,6 +166,7 @@ class DetailView: UIViewController {
         setupView()
         setupHierarchy()
         setupLayout()
+        presenter?.getUser()
     }
     
     // MARK: - Setups
@@ -218,14 +232,22 @@ class DetailView: UIViewController {
             
             editProfileButton.widthAnchor.constraint(equalToConstant: 90),
             editProfileButton.heightAnchor.constraint(equalToConstant: 40),
-            editProfileButton.bottomAnchor.constraint(equalTo: photo.topAnchor, constant: 20),
+            editProfileButton.bottomAnchor.constraint(equalTo: photo.topAnchor, constant: 50),
             editProfileButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20)
         ])
     }
     
     // MARK: - Methods
     
-    
+    func updateUserInfo() {
+        guard let avatar = photo.image?.pngData(),
+              let name = nameTextField.text, !name.isEmpty,
+              let gender = genderTextField.text,
+              let dateBorn = dateTextField.text
+        else { return }
+        
+        presenter?.updateUser(avatar: avatar, name: name, gender: gender, dateBorn: dateBorn)
+    }
     
     // MARK: - Actions
     
@@ -251,6 +273,7 @@ class DetailView: UIViewController {
             iconChangePhoto.isHidden = true
             datePicker.isHidden = true
             changeGenderButton.isHidden = true
+            updateUserInfo()
         } else {
             isEdit = true
             nameTextField.isUserInteractionEnabled = true
@@ -277,5 +300,4 @@ extension DetailView: UIImagePickerControllerDelegate, UINavigationControllerDel
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
     }
-
 }

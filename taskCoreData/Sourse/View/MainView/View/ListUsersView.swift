@@ -6,8 +6,11 @@
 //
 
 import UIKit
+import CoreData
 
-class ListUsersView: UIViewController {
+final class ListUsersView: UIViewController, MainProtocolView {
+    
+    var presenter: MainPresenterProtocol?
     
     // MARK: - Outlets
     
@@ -34,7 +37,7 @@ class ListUsersView: UIViewController {
         button.setTitle("enter", for: .normal)
         button.titleLabel?.font = .boldSystemFont(ofSize: 20)
         button.layer.cornerRadius = 10
-//        button.addTarget(self, action: #selector(startTimer), for: .touchUpInside)
+        button.addTarget(self, action: #selector(addUser), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -43,17 +46,25 @@ class ListUsersView: UIViewController {
         let tableView = UITableView(frame: .zero, style: .insetGrouped)
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         tableView.dataSource = self
+        tableView.delegate = self
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
     
-    // MARK: - LifeCycle
+    
+    // MARK: - LifeCycle + Init
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        reloadTable()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
         setupHierarchy()
         setupLayout()
+        presenter?.fetchUsers()
     }
     
     // MARK: - Setups
@@ -88,22 +99,55 @@ class ListUsersView: UIViewController {
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
+    
+    // MARK: - Actions
+    
+    @objc
+    func addUser() {
+        guard let name = nameField.text, !name.isEmpty else { return showAlert(title: "Warning", message: "Not name") }
+        presenter?.addNewUser(name: name)
+        nameField.text = ""
+    }
+    
+    // MARK: - Method
+    
+    private func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .cancel))
+        self.present(alert, animated: true)
+    }
+    
+    func reloadTable() {
+        tableView.reloadData()
+    }
 }
 
-// MARK: - Extension
+// MARK: - Extension UITableView
 
-extension ListUsersView: UITableViewDataSource {
+extension ListUsersView: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        10
+        presenter?.getUsersCount() ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = "Hello World!"
+        let user = presenter?.getUser(index: indexPath.row)
+        cell.textLabel?.text = user?.name
         cell.accessoryType = .disclosureIndicator
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        guard let user = presenter?.getUser(index: indexPath.row) else { return }
+        let detailViewController = ModuleBuilder.createDetailView(model: user)
+        navigationController?.pushViewController(detailViewController, animated: true)
+    }
     
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        guard editingStyle == .delete else { return }
+        presenter?.deleteUser(index: indexPath.row)
+        tableView.reloadData()
+    }
 }
